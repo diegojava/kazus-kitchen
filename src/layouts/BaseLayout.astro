@@ -3,20 +3,33 @@ import "../styles/global.css";
 
 const { title = "Kazu Astro" } = Astro.props;
 ---
+
 <!doctype html>
 <html lang="es" class="scroll-smooth">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Unica+One&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Unica+One&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body class="bg-white text-zinc-900">
     <!-- Topbar mobile -->
-    <header class="sticky top-0 z-20 border-b bg-white/90 backdrop-blur md:hidden">
-      <div class="mx-auto flex max-w-6xl items-center gap-3 px-4 py-3">
+    <header
+      class="sticky top-0 z-20 border-b bg-white/90 backdrop-blur md:hidden"
+    >
+      <d class="mx-auto flex max-w-6xl gap-3 px-4 py-3 justify-between">
+        <a href="/" class="block">
+          <img
+            src="/logo.png"
+            alt="Kazu Kitchen"
+            class="w-24 opacity-90"
+          />
+        </a>
         <button
           id="openMenu"
           type="button"
@@ -26,16 +39,16 @@ const { title = "Kazu Astro" } = Astro.props;
           <span class="text-lg leading-none">☰</span>
           <span class="uppercase tracking-[0.18em]">Menú</span>
         </button>
-        <div class="ml-auto text-sm text-zinc-500">KAZU</div>
-      </div>
+      </d>
     </header>
 
     <!-- Overlay mobile -->
-    <div id="overlay" class="fixed inset-0 z-30 hidden bg-black/40 md:hidden"></div>
+    <div id="overlay" class="fixed inset-0 z-30 hidden bg-black/40 md:hidden">
+    </div>
 
     <!-- Sidebar -->
     <aside
-      [scrollbar-gutter:stable] 
+      [scrollbar-gutter:stable]
       id="sidebar"
       class="fixed left-0 top-0 z-40 h-screen w-[280px] -translate-x-[105%] overflow-y-auto border-r border-zinc-200 bg-white px-6 py-7 transition-transform md:translate-x-0"
       aria-label="Navegación"
@@ -44,10 +57,9 @@ const { title = "Kazu Astro" } = Astro.props;
     </aside>
 
     <!-- Content (offset en desktop) -->
-   <main class="min-h-screen md:ml-[280px]">
+    <main class="min-h-screen md:ml-[280px]">
       <slot />
     </main>
-
 
     <script is:inline>
       const sidebar = document.getElementById("sidebar");
