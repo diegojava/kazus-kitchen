@@ -1,0 +1,109 @@
+---
+type Location = {
+  title: string;
+  lines: string[];
+};
+
+const email = "hola@kazu.mx";
+
+const phones: { label: string; value: string; href: string }[] = [
+  { label: "Newton", value: "55 52 80 48 18", href: "tel:+52552804818" },
+  { label: "Zibatá", value: "44 28 71 77 64", href: "tel:+524428717764" },
+];
+
+const locations: Location[] = [
+  {
+    title: "Polanco",
+    lines: ["Av. Isaac Newton 105,", "Polanco. CDMX."],
+  },
+  {
+    title: "Zibatá",
+    lines: ["Plaza Zielo Zibatá, Local #22,", "Querétaro."],
+  },
+];
+---
+
+<section class="w-full bg-[#363b40] text-white/80">
+  <div class="px-6 py-14 md:px-16">
+    <div class="mx-auto grid max-w-6xl grid-cols-1 gap-12 md:grid-cols-3">
+      <!-- EMAIL -->
+      <div class="text-center">
+        <div class="mx-auto mb-4 grid h-10 w-10 place-items-center rounded-full bg-white/5 ring-1 ring-white/10">
+          <!-- Icon -->
+          <svg viewBox="0 0 24 24" class="h-5 w-5 text-[#b8955b]" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16v16H4z" opacity="0.0"></path>
+            <path d="M4 8l8 5 8-5" />
+            <path d="M4 6h16v12H4z" />
+          </svg>
+        </div>
+
+        <h3 class="font-serif text-2xl tracking-[0.18em] text-white">
+          EMAIL
+        </h3>
+
+        <a
+          class="mt-4 inline-block text-white/55 hover:text-white transition"
+          href={`mailto:${email}`}
+        >
+          {email}
+        </a>
+      </div>
+
+      <!-- LLÁMANOS -->
+      <div class="text-center">
+        <div class="mx-auto mb-4 grid h-10 w-10 place-items-center rounded-full bg-white/5 ring-1 ring-white/10">
+          <svg viewBox="0 0 24 24" class="h-5 w-5 text-[#b8955b]" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.5 2.1L8.1 9.5a16 16 0 0 0 6.4 6.4l1.1-1.1a2 2 0 0 1 2.1-.5c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z"/>
+          </svg>
+        </div>
+
+        <h3 class="font-serif text-2xl tracking-[0.18em] text-white">
+          LLÁMANOS
+        </h3>
+
+        <div class="mt-4 space-y-2 text-white/55">
+          {phones.map((p) => (
+            <div class="flex items-center justify-center gap-2">
+              <span class="hidden text-white/35 md:inline">{p.label}</span>
+              <a class="hover:text-white transition" href={p.href}>
+                {p.value}
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- UBICACIÓN -->
+      <div class="text-center">
+        <div class="mx-auto mb-4 grid h-10 w-10 place-items-center rounded-full bg-white/5 ring-1 ring-white/10">
+          <svg viewBox="0 0 24 24" class="h-5 w-5 text-[#b8955b]" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 21s7-4.5 7-11a7 7 0 1 0-14 0c0 6.5 7 11 7 11z"/>
+            <circle cx="12" cy="10" r="2.5"/>
+          </svg>
+        </div>
+
+        <h3 class="font-serif text-2xl tracking-[0.18em] text-white">
+          UBICACIÓN
+        </h3>
+
+        <div class="mt-4 space-y-5 text-white/55">
+          {locations.map((l) => (
+            <div>
+              <div class="text-white/70">{l.title}:</div>
+              {l.lines.map((line) => (
+                <div>{line}</div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer inferior -->
+  <div class="border-t border-white/10">
+    <div class="px-6 py-6 text-center text-sm text-white/35 md:px-16">
+      © {new Date().getFullYear()} | Todos los derechos reservados — Creado por <a href="https://diegojava.com/" target="_blank" class="text-white/55 hover:text-white transition">dj</a>.
+    </div>
+  </div>
+</section>

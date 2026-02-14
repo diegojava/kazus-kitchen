@@ -1,0 +1,66 @@
+---
+import { Image } from "astro:assets";
+
+// ✅ Imágenes en src/assets/images/gallery/
+import g1 from "../assets/images/gallery/1.jpg";
+import g2 from "../assets/images/gallery/2.jpg";
+import g3 from "../assets/images/gallery/3.jpg";
+import g4 from "../assets/images/gallery/4.jpg";
+import g5 from "../assets/images/gallery/5.jpg";
+import g6 from "../assets/images/gallery/6.jpg";
+import g7 from "../assets/images/gallery/7.jpg";
+import g8 from "../assets/images/gallery/8.jpg";
+import g9 from "../assets/images/gallery/9.jpg";
+import g10 from "../assets/images/gallery/10.jpg";
+import g11 from "../assets/images/gallery/11.jpg";
+import g12 from "../assets/images/gallery/12.jpg";
+
+const items = [
+  { src: g1, alt: "Galería 1" },
+  { src: g2, alt: "Galería 2" },
+  { src: g3, alt: "Galería 3" },
+  { src: g4, alt: "Galería 4" },
+  { src: g5, alt: "Galería 5" },
+  { src: g6, alt: "Galería 6" },
+  { src: g7, alt: "Galería 7" },
+  { src: g8, alt: "Galería 8" },
+  { src: g9, alt: "Galería 9" },
+  { src: g10, alt: "Galería 10" },
+  { src: g11, alt: "Galería 11" },
+  { src: g12, alt: "Galería 12" },
+];
+---
+
+<section class="w-full bg-[#4b2f6b] text-white">
+  <div class="px-6 py-16 md:px-16">
+    <h2 class="text-center font-serif text-5xl tracking-[0.18em] md:text-6xl">
+      GALERÍA
+    </h2>
+    <div class="mx-auto mt-6 h-px w-56 bg-white/35"></div>
+
+    <!-- Masonry con columns -->
+    <div class="mx-auto mt-12 columns-1 gap-5 sm:columns-2 lg:columns-3">
+      {items.map((it) => (
+        <a
+          href={it.src.src}
+          class="glightbox group mb-5 block break-inside-avoid overflow-hidden"
+          data-gallery="kazu-gallery"
+        >
+          <Image
+            src={it.src}
+            alt={it.alt}
+            class="w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            loading="lazy"
+          />
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <!-- ✅ SOLO GLightbox (sin modal custom) -->
+  <script>
+    import { initKazuLightbox } from "../scripts/glightbox-init";
+    initKazuLightbox();
+  </script>
+</section>

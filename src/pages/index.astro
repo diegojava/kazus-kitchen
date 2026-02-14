@@ -1,0 +1,32 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Sidebar from "../components/Sidebar.astro";
+
+import { Image } from "astro:assets";
+import hero from "../assets/images/hero.png";
+import AboutSplit from "../components/AboutSplit.astro";
+import Gallery from "../components/Gallery.astro";
+import MediaPress from "../components/MediaPress.astro";
+import ContactStrip from "../components/ContactStrip.astro";
+---
+<BaseLayout title="Kazu's Kitchen - Restaurante Japonés de la chef Kazu Kumoto">
+  <Fragment slot="sidebar">
+    <Sidebar />
+  </Fragment>
+
+  <section class="relative h-[100svh] w-full overflow-hidden">
+  <Image
+    src={hero}
+    alt="Kazu Kitchen"
+    class="absolute inset-0 h-full w-full object-cover"
+    sizes="100vw"
+    priority
+  />
+</section>
+
+<AboutSplit id="acerca" />
+<Gallery />
+<MediaPress />
+<ContactStrip />
+
+</BaseLayout>

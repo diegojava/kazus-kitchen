@@ -1,0 +1,116 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Image } from "astro:assets";
+import hero from "../assets/images/catering-hero.jpg"; // pon tu banner aquí
+import Sidebar from "../components/Sidebar.astro";
+import ContactStrip from "../components/ContactStrip.astro";
+---
+
+<BaseLayout title="Catering">
+    <Fragment slot="sidebar">
+        <Sidebar />
+    </Fragment>
+  <!-- Hero -->
+  <section class="relative h-[220px] w-full md:h-[280px]">
+    <Image
+      src={hero}
+      alt="Catering"
+      class="absolute inset-0 h-full w-full object-cover"
+      priority
+    />
+    <div class="absolute inset-0 bg-black/25"></div>
+  </section>
+
+  <!-- Body -->
+  <section class="bg-white text-zinc-800">
+    <div class="mx-auto max-w-5xl px-6 py-14 md:px-10 md:py-16">
+      <!-- Title -->
+      <h1 class="text-center font-serif text-5xl tracking-[0.18em] md:text-6xl">
+        CATERING
+      </h1>
+
+      <p class="mt-6 text-center font-serif text-base tracking-[0.08em] text-zinc-700">
+        ¡TAMBIÉN LLEVAMOS LA COCINA DE KAZU A TUS EVENTOS!
+      </p>
+
+      <p class="mt-4 text-center font-serif text-lg tracking-[0.12em] text-zinc-700">
+        SOLICITA TU COTIZACIÓN
+      </p>
+
+      <!-- Lines left/right (como en la referencia) -->
+      <div class="mt-8 flex items-center justify-center gap-6">
+        <div class="hidden h-px w-40 bg-zinc-200 md:block"></div>
+        <div class="h-px w-20 bg-zinc-200"></div>
+        <div class="hidden h-px w-40 bg-zinc-200 md:block"></div>
+      </div>
+
+      <!-- Form -->
+      <form
+        class="mx-auto mt-12"
+        name="catering"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        action="/"
+      >
+        <!-- Netlify requiere esto -->
+        <input type="hidden" name="form-name" value="catering" />
+
+        <!-- Honeypot -->
+        <p class="hidden">
+          <label>
+            Don’t fill this out: <input name="bot-field" />
+          </label>
+        </p>
+
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <input
+            class="h-12 w-full border border-zinc-200 px-4 text-sm outline-none placeholder:text-zinc-400 focus:border-zinc-400"
+            type="text"
+            name="name"
+            placeholder="Nombre"
+            required
+          />
+
+          <input
+            class="h-12 w-full border border-zinc-200 px-4 text-sm outline-none placeholder:text-zinc-400 focus:border-zinc-400"
+            type="email"
+            name="email"
+            placeholder="Email"
+            required
+          />
+
+          <input
+            class="h-12 w-full border border-zinc-200 px-4 text-sm outline-none placeholder:text-zinc-400 focus:border-zinc-400"
+            type="tel"
+            name="phone"
+            placeholder="Teléfono"
+          />
+
+          <input
+            class="h-12 w-full border border-zinc-200 px-4 text-sm outline-none placeholder:text-zinc-400 focus:border-zinc-400"
+            type="text"
+            name="subject"
+            placeholder="Asunto"
+            required
+          />
+        </div>
+
+        <textarea
+          class="mt-6 min-h-[180px] w-full resize-y border border-zinc-200 px-4 py-3 text-sm outline-none placeholder:text-zinc-400 focus:border-zinc-400"
+          name="message"
+          placeholder="Mensaje"
+          required
+        ></textarea>
+
+        <button
+          type="submit"
+          class="mt-10 w-full bg-black py-4 text-center text-xs font-semibold tracking-[0.3em] text-white hover:bg-zinc-900"
+        >
+            ENVIAR
+        </button>
+      </form>
+    </div>
+  </section>
+  <ContactStrip />
+</BaseLayout>

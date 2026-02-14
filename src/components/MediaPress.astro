@@ -1,0 +1,128 @@
+---
+const videos = [
+  { id: "nQ8sugHGl8s", title: "THN Programa Kazu’s Kitchen" },
+  { id: "J-YlZBAPitw", title: "THN Programa Kazu’s Kitchen" },
+  { id: "BJ_7GsMXzQE", title: "THN Programa Kazu’s Kitchen" },
+  { id: "Frc2VqWCFTA", title: "Sushi Conos | USA Rice México" },
+  { id: "qI8SB4dEVtA", title: "Kazu Kitchen, sabor tradicional de Japón a la vanguardia" },
+];
+---
+
+<section class="w-full bg-zinc-900 text-white">
+  <div class="px-6 py-16 md:px-16">
+    <h2 class="text-center font-serif text-5xl tracking-[0.18em] md:text-6xl">
+      MEDIA <span class="opacity-60">+</span> PRESS
+    </h2>
+    <div class="mx-auto mt-6 h-px w-56 bg-white/35"></div>
+
+    <div class="relative mx-auto mt-10 max-w-5xl">
+      <!-- track -->
+      <div
+        id="mp-track"
+        class="flex snap-x snap-mandatory overflow-x-auto scroll-smooth rounded-sm bg-black/20"
+        style="scrollbar-width:none;"
+      >
+        {videos.map((v, i) => (
+          <article class="w-full shrink-0 snap-center p-4">
+            <div class="relative aspect-video w-full overflow-hidden bg-black">
+              <!-- placeholder (thumb) -->
+              <img
+                class="absolute inset-0 h-full w-full object-cover opacity-70"
+                src={`https://i.ytimg.com/vi/${v.id}/hqdefault.jpg`}
+                alt={v.title}
+                loading="lazy"
+              />
+
+              <!-- iframe se inyecta por JS solo cuando toca -->
+              <div
+                class="absolute inset-0"
+                data-video
+                data-video-id={v.id}
+                data-active={i === 0 ? "true" : "false"}
+              ></div>
+
+              <!-- play overlay -->
+              <button
+                type="button"
+                class="absolute inset-0 grid place-items-center bg-black/20 hover:bg-black/10 transition"
+                data-play
+                aria-label={`Reproducir ${v.title}`}
+              >
+                <span class="grid h-16 w-16 place-items-center rounded-full bg-white/15 ring-1 ring-white/25 backdrop-blur">
+                  <span class="text-2xl">▶</span>
+                </span>
+              </button>
+            </div>
+
+            <p class="mt-3 text-center text-sm tracking-[0.2em] text-white/70">
+              {v.title}
+            </p>
+          </article>
+        ))}
+      </div>
+
+      <!-- nav buttons -->
+      <button
+        type="button"
+        id="mp-prev"
+        class="absolute left-2 top-1/2 hidden -translate-y-1/2 rounded-full bg-black/50 p-3 text-white hover:bg-black/70 md:block"
+        aria-label="Anterior"
+      >
+        ‹
+      </button>
+
+      <button
+        type="button"
+        id="mp-next"
+        class="absolute right-2 top-1/2 hidden -translate-y-1/2 rounded-full bg-black/50 p-3 text-white hover:bg-black/70 md:block"
+        aria-label="Siguiente"
+      >
+        ›
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const track = document.getElementById("mp-track");
+    const prev = document.getElementById("mp-prev");
+    const next = document.getElementById("mp-next");
+
+    function slideWidth() {
+      const first = track?.querySelector("article");
+      return first ? first.getBoundingClientRect().width : 0;
+    }
+
+    function go(dir) {
+      track?.scrollBy({ left: dir * slideWidth(), behavior: "smooth" });
+    }
+
+    prev?.addEventListener("click", () => go(-1));
+    next?.addEventListener("click", () => go(1));
+
+    // Lazy: inyecta iframe cuando le das play
+    track?.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-play]");
+      if (!btn) return;
+
+      const container = btn.parentElement?.querySelector("[data-video]");
+      const id = container?.getAttribute("data-video-id");
+      if (!container || !id) return;
+
+      // evita doble inyección
+      if (container.querySelector("iframe")) return;
+
+      container.innerHTML = `
+        <iframe
+          class="h-full w-full"
+          src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0"
+          title="YouTube video player"
+          frameborder="0"
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      `;
+
+      btn.remove(); // quita overlay play
+    });
+  </script>
+</section>

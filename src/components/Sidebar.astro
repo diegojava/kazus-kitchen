@@ -1,0 +1,53 @@
+---
+const pathname = Astro.url.pathname;
+
+const nav = [
+  { href: "/", label: "Inicio" },
+  { href: "/#acerca", label: "Acerca de" },
+  { href: "/menu.pdf", label: "Menú", target: "_blank" },
+  { href: "/sucursales", label: "Ubicación" },
+  { href: "/catering", label: "Catering" },
+  { href: "/contacto", label: "Contacto" },
+];
+
+const isActive = (href) => {
+  if (href === "/") return pathname === "/";
+  return pathname.startsWith(href);
+};
+---
+<div class="flex h-full flex-col gap-8">
+  <!-- Logo -->
+<div class="flex justify-center">
+  <a href="/" class="block">
+    <img
+      src="/logo.png"
+      alt="Kazu Kitchen"
+      class="mb-8 w-28 opacity-90"
+    />
+  </a>
+</div>
+  <!-- Nav -->
+  <nav class="flex flex-col items-center gap-2">
+    {nav.map((item) => (
+      <a
+        target={item.target}
+        href={item.href}
+        data-nav
+        aria-current={isActive(item.href) ? "page" : undefined}
+        class:list={[
+          "rounded-xl border px-3 py-3 text-[18px] uppercase tracking-[0.28em] transition",
+          isActive(item.href)
+            ? "border-zinc-100 bg-zinc-50 font-bold"
+            : "border-transparent hover:border-zinc-200 hover:bg-zinc-50",
+        ]}
+      >
+        {item.label}
+      </a>
+    ))}
+  </nav>
+
+  <!-- Footer -->
+  <div class="mt-auto text-xs text-zinc-500">
+    © {new Date().getFullYear()}
+  </div>
+</div>

@@ -1,0 +1,154 @@
+---
+const { id = "ubicacion" } = Astro.props;
+
+const locations = [
+  {
+    key: "polanco",
+    name: "POLANCO",
+    query: "Kazu's Kitchen Polanco Newton 105",
+    address1: "Newton #105, Polanco",
+    address2: "Miguel Hidalgo, CDMX",
+    phoneLabel: "55 52 80 48 18",
+    phoneHref: "+525552804818",
+    hours: "13:00 a 22:00 hrs todos los días",
+    // pin en overlay: más hacia la derecha (CDMX)
+    pinPos: "right",
+  },
+  {
+    key: "qro",
+    name: "QUERÉTARO",
+    query: "Kazu's Kitchen Querétaro Plaza Zielo Zibatá Local 22",
+    address1: "Plaza Zielo, Local #22",
+    address2: "Zibatá, Querétaro",
+    phoneLabel: "44 28 71 77 64",
+    phoneHref: "+524428717764",
+    hours: "Mar – Dom: 13:00 a 22:00 hrs",
+    // pin en overlay: más hacia arriba (Qro)
+    pinPos: "top",
+  },
+];
+
+// Genera src embed (Google Maps normal)
+const embed = (q) => `https://www.google.com/maps?q=${encodeURIComponent(q)}&output=embed`;
+---
+
+<section id={id} class="w-full bg-[#3b4044]">
+  <!-- MAPA -->
+  <div class="relative h-[52vh] min-h-[380px] w-full">
+    <iframe
+      title="Mapa de sucursales"
+      data-map
+      src={embed(locations[0].query)}
+      class="h-full w-full"
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+      allowfullscreen
+    ></iframe>
+
+    <!-- Pin overlay (lo movemos con clases) -->
+    <div class="pointer-events-none absolute inset-0">
+      <div
+        data-pin
+        class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+      >
+      </div>
+    </div>
+  </div>
+
+  <!-- INFO -->
+  <div class="px-6 py-14 text-white/70 md:px-16">
+    <div class="mx-auto grid max-w-6xl grid-cols-1 gap-14 md:grid-cols-2">
+      {locations.map((loc) => (
+        <button
+          type="button"
+          class="cursor-pointer text-left outline-none"
+          data-loc={loc.key}
+          data-query={loc.query}
+          data-pinpos={loc.pinPos}
+        >
+          <h3 class="font-serif text-5xl tracking-[0.12em] text-white">
+            {loc.name}
+          </h3>
+
+          <div class="mt-6 space-y-2 text-white/45">
+            <p>{loc.address1}</p>
+            <p>{loc.address2}</p>
+          </div>
+
+          <div class="mt-8 space-y-4 text-white/45">
+            <p class="flex items-center gap-2">
+              <span aria-hidden="true">📞</span>
+              <a
+                class="pointer-events-auto hover:text-white transition"
+                href={`tel:${loc.phoneHref}`}
+                onClick={(e) => e.stopPropagation()}
+              >
+                {loc.phoneLabel}
+              </a>
+            </p>
+            <p class="flex items-center gap-2">
+              <span aria-hidden="true">🕒</span>
+              {loc.hours}
+            </p>
+          </div>
+
+          <div class="mt-8 h-px w-full bg-white/10"></div>
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <div class="border-t border-white/10">
+    <div class="px-6 py-6 text-center text-sm text-white/35 md:px-16">
+      © {new Date().getFullYear()} | Todos los derechos reservados.
+    </div>
+  </div>
+
+  <script is:inline>
+    const iframe = document.querySelector("[data-map]");
+    const pin = document.querySelector("[data-pin]");
+    const cards = Array.from(document.querySelectorAll("[data-loc]"));
+
+    const embed = (q) => `https://www.google.com/maps?q=${encodeURIComponent(q)}&output=embed`;
+
+    // posiciones del pin (ajusta a tu gusto)
+    const pinClassByPos = {
+      right: "left-[65%] top-[52%] -translate-x-1/2 -translate-y-1/2",
+      top:   "left-[55%] top-[30%] -translate-x-1/2 -translate-y-1/2",
+      center:"left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
+    };
+
+    const setActive = (key) => {
+      cards.forEach((c) => {
+        const active = c.dataset.loc === key;
+        c.classList.toggle("opacity-100", active);
+        c.classList.toggle("opacity-70", !active);
+      });
+    };
+
+    const go = (card) => {
+      const q = card.dataset.query;
+      const pos = card.dataset.pinpos || "center";
+      if (!iframe || !q) return;
+
+      // cambia mapa (forzamos refresh con timestamp para que se actualice siempre)
+      iframe.src = embed(q) + `&t=${Date.now()}`;
+
+      // mueve pin
+      pin.className =
+        "absolute " + (pinClassByPos[pos] || pinClassByPos.center);
+
+      // resalta tarjeta
+      setActive(card.dataset.loc);
+    };
+
+    // inicia al azar
+    const start = cards[Math.floor(Math.random() * cards.length)];
+    if (start) go(start);
+
+    // click para cambiar
+    cards.forEach((card) => {
+      card.addEventListener("click", () => go(card));
+    });
+  </script>
+</section>

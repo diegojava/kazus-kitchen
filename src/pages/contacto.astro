@@ -1,0 +1,96 @@
+---
+import ContactStrip from "../components/ContactStrip.astro";
+import Sidebar from "../components/Sidebar.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Contacto">
+    <Fragment slot="sidebar">
+     <Sidebar />
+    </Fragment>
+  <section class="w-full bg-zinc-900 text-white">
+    <div class="mx-auto max-w-5xl px-6 py-16 md:px-10">
+      <!-- Title -->
+      <h1 class="text-center text-zinc-50 font-serif text-5xl tracking-[0.12em] md:text-6xl">
+        ¡CONTÁCTANOS!
+      </h1>
+
+      <p class="mt-5 text-center font-serif text-sm tracking-[0.14em] text-white/80">
+        ¿PREGUNTAS? ¡ESTAREMOS CONTENTOS DE PODER AYUDARTE!
+      </p>
+
+      <div class="mx-auto mt-8 h-px w-56 bg-white/25"></div>
+
+      <!-- FORM -->
+      <form
+        class="mx-auto mt-12 max-w-4xl"
+        name="contacto"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        action="/"
+      >
+        <input type="hidden" name="form-name" value="contacto" />
+
+        <!-- Honeypot -->
+        <p class="hidden">
+          <label>Don’t fill this out: <input name="bot-field" /></label>
+        </p>
+
+        <!-- grid inputs -->
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <input
+            class="h-12 w-full bg-white px-4 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-white/20"
+            type="text"
+            name="name"
+            placeholder="Nombre"
+            required
+          />
+
+          <input
+            class="h-12 w-full bg-white px-4 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-white/20"
+            type="email"
+            name="email"
+            placeholder="Email"
+            required
+          />
+
+          <input
+            class="h-12 w-full bg-white px-4 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-white/20"
+            type="tel"
+            name="phone"
+            placeholder="Teléfono"
+          />
+
+          <select
+            class="h-12 w-full bg-white px-4 text-sm text-zinc-700 outline-none focus:ring-2 focus:ring-white/20"
+            name="topic"
+            required
+          >
+            <option value="" selected disabled>Motivo</option>
+            <option value="Facturación">Facturación</option>
+            <option value="Dudas">Dudas</option>
+            <option value="Sugerencias">Sugerencias</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+
+        <textarea
+          class="mt-6 min-h-[200px] w-full resize-y bg-white px-4 py-3 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-white/20"
+          name="message"
+          placeholder="Mensaje"
+          required
+        ></textarea>
+
+        <!-- Button -->
+        <button
+          type="submit"
+          class="mt-10 w-full border border-white/35 bg-black py-4 text-center text-xs font-semibold tracking-[0.3em] text-white hover:bg-zinc-900"
+        >
+            ENVIAR
+        </button>
+      </form>
+    </div>
+  </section>
+  <ContactStrip />
+</BaseLayout>

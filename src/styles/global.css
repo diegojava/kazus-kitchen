@@ -1,0 +1,10 @@
+@import "tailwindcss";
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap");
+
+body {
+  font-family: "Unica One", serif;
+  background-color: #fafafa;
+  color: #333333;
+  margin: 0;
+  padding: 0;
+}
