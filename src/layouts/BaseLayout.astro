@@ -2,6 +2,9 @@
 import "../styles/global.css";
 
 const { title = "Kazu Astro" } = Astro.props;
+const description = "Descubre Kazu’s Kitchen, restaurante japonés en Polanco, CDMX con platos tradicionales, sushi y nigiri de la chef Kazu Kumoto.";
+const image = "https://kazuskitchen.com/_astro/hero.BisIgASB_ZdYQvb.webp";
+const url = "https://kazuskitchen.com/";
 ---
 
 <!doctype html>
@@ -10,12 +13,23 @@ const { title = "Kazu Astro" } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
+    <meta name="description" content={description} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Unica+One&display=swap"
       rel="stylesheet"
     />
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+    <meta property="og:url" content={url} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={image} />
   </head>
   <body class="bg-white text-zinc-900">
     <!-- Topbar mobile -->
