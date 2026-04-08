@@ -41,7 +41,7 @@ import ContactResult from "../components/ContactResult.astro";
         />
 
         <!-- FORM -->
-        <form class="mx-auto mt-12 max-w-4xl" name="contacto">
+        <form class="mx-auto mt-12 max-w-4xl" name="contacto" action="/api/contact" method="POST">
           <!-- Honeypot -->
           <p class="hidden">
             <label>Don’t fill this out: <input name="bot-field" /></label>
