@@ -1,0 +1,44 @@
+---
+const { variant = "info", title, name } = Astro.props;
+
+const styles = {
+  info: {
+    wrapper: "border-l-4 border-sky-500 bg-sky-50 text-sky-900",
+    icon: "ℹ️",
+    label: "INFO",
+  },
+  warning: {
+    wrapper: "border-l-4 border-amber-500 bg-amber-50 text-amber-900",
+    icon: "⚠️",
+    label: "ATENCIÓN",
+  },
+  success: {
+    wrapper: "border-l-4 border-emerald-500 bg-emerald-50 text-emerald-900",
+    icon: "✅",
+    label: "Tu mensaje ha sido enviado con éxito. ¡Gracias por contactarnos!",
+  },
+  danger: {
+    wrapper: "border-l-4 border-rose-500 bg-rose-50 text-rose-900",
+    icon: "❌",
+    label: "Hubo un error al enviar tu mensaje. Por favor intenta de nuevo más tarde.",
+  },
+};
+
+const current = styles[variant] ?? styles.info;
+---
+
+<aside id={name} class={`hidden my-6 rounded-md p-4 ${current.wrapper}`}>
+  <div class="flex items-start gap-3">
+    <span class="text-lg leading-none">{current.icon}</span>
+
+    <div>
+      <p class="mb-1 text-xs font-semibold tracking-[0.2em] uppercase">
+        {title ?? current.label}
+      </p>
+
+      <div class="text-sm leading-relaxed">
+        <slot />
+      </div>
+    </div>
+  </div>
+</aside>

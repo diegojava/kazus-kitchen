@@ -2,6 +2,7 @@
 import ContactStrip from "../components/ContactStrip.astro";
 import Sidebar from "../components/Sidebar.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ContactResult from "../components/ContactResult.astro";
 ---
 
 <BaseLayout title="Contacto | Kazu's Kitchen – Chef Kazu Kumoto">
@@ -25,74 +26,130 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 
       <div class="mx-auto mt-8 h-px w-56 bg-white/25"></div>
 
-      <!-- FORM -->
-      <form
-        class="mx-auto mt-12 max-w-4xl"
-        name="contacto"
-        method="POST"
-        action="/api/contact"
-      >
-        <!-- Honeypot -->
-        <p class="hidden">
-          <label>Don’t fill this out: <input name="bot-field" /></label>
-        </p>
+      <div class="mt-10">
+        <ContactResult
+          name="success-msg"
+          id="success-msg"
+          variant="success"
+          class="hidden"
+        />
+        <ContactResult
+          name="error-msg"
+          id="error-msg"
+          variant="error"
+          class="hidden"
+        />
 
-        <!-- tipo de form (esto sí es clave) -->
-        <input type="hidden" name="formType" value="contacto" />
+        <!-- FORM -->
+        <form class="mx-auto mt-12 max-w-4xl" name="contacto">
+          <!-- Honeypot -->
+          <p class="hidden">
+            <label>Don’t fill this out: <input name="bot-field" /></label>
+          </p>
 
-        <!-- grid inputs -->
-        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <input
-            class="h-12 w-full bg-white px-4 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-white/20"
-            type="text"
-            name="nombre"
-            placeholder="Nombre"
-            required
-          />
+          <!-- tipo de form (esto sí es clave) -->
+          <input type="hidden" name="formType" value="contacto" />
 
-          <input
-            class="h-12 w-full bg-white px-4 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-white/20"
-            type="email"
-            name="email"
-            placeholder="Email"
-            required
-          />
+          <!-- grid inputs -->
+          <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <input
+              class="h-12 w-full bg-white px-4 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-white/20"
+              type="text"
+              name="nombre"
+              placeholder="Nombre"
+              required
+            />
 
-          <input
-            class="h-12 w-full bg-white px-4 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-white/20"
-            type="tel"
-            name="telefono"
-            placeholder="Teléfono"
-          />
+            <input
+              class="h-12 w-full bg-white px-4 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-white/20"
+              type="email"
+              name="email"
+              placeholder="Email"
+              required
+            />
 
-          <select
-            class="h-12 w-full bg-white px-4 text-sm text-zinc-700 outline-none focus:ring-2 focus:ring-white/20"
-            name="motivo"
-            required
+            <input
+              class="h-12 w-full bg-white px-4 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-white/20"
+              type="tel"
+              name="telefono"
+              placeholder="Teléfono"
+            />
+
+            <select
+              class="h-12 w-full bg-white px-4 text-sm text-zinc-700 outline-none focus:ring-2 focus:ring-white/20"
+              name="motivo"
+              required
+            >
+              <option value="" selected disabled>Motivo</option>
+              <option value="Facturación">Facturación</option>
+              <option value="Dudas">Dudas</option>
+              <option value="Sugerencias">Sugerencias</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </div>
+
+          <textarea
+            class="mt-6 min-h-[200px] w-full resize-y bg-white px-4 py-3 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-white/20"
+            name="mensaje"
+            placeholder="Mensaje"
+            required></textarea>
+
+          <!-- Button -->
+          <button
+            type="submit"
+            class="mt-10 w-full border border-white/35 bg-black py-4 text-center text-xs font-semibold tracking-[0.3em] text-white hover:bg-zinc-900"
           >
-            <option value="" selected disabled>Motivo</option>
-            <option value="Facturación">Facturación</option>
-            <option value="Dudas">Dudas</option>
-            <option value="Sugerencias">Sugerencias</option>
-            <option value="Otro">Otro</option>
-          </select>
-        </div>
-
-        <textarea
-          class="mt-6 min-h-[200px] w-full resize-y bg-white px-4 py-3 text-sm text-zinc-700 outline-none placeholder:text-zinc-400 focus:ring-2 focus:ring-white/20"
-          name="mensaje"
-          placeholder="Mensaje"
-          required></textarea>
-
-        <!-- Button -->
-        <button
-          type="submit"
-          class="mt-10 w-full border border-white/35 bg-black py-4 text-center text-xs font-semibold tracking-[0.3em] text-white hover:bg-zinc-900"
-        >
-          ENVIAR
-        </button>
-      </form>
+            ENVIAR
+          </button>
+        </form>
+      </div>
     </div>
+    <ContactStrip />
   </section>
-  <ContactStrip />
 </BaseLayout>
+
+<script>
+  const form = document.querySelector('form[name="contacto"]');
+
+  form!!.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+
+    const body = new URLSearchParams();
+    for (const [key, value] of formData.entries()) {
+      body.append(key, value);
+    }
+    const contactResult = document.getElementById("contact-result");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body,
+      });
+
+      const data = await res.json();
+
+      if (data.ok) {
+        document.getElementById("success-msg")?.classList.remove("hidden");
+        setTimeout(() => {
+          document.getElementById("success-msg")?.classList.add("hidden");
+        }, 5000);
+        form.reset();
+      } else {
+        document.getElementById("error-msg")?.classList.remove("hidden");
+        setTimeout(() => {
+          document.getElementById("error-msg")?.classList.add("hidden");
+        }, 5000);
+      }
+    } catch (err) {
+      document.getElementById("error-msg")?.classList.remove("hidden");
+      setTimeout(() => {
+        document.getElementById("error-msg")?.classList.add("hidden");
+      }, 5000);
+    }
+  });
+</script>

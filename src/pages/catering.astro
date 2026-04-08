@@ -4,6 +4,7 @@ import { Image } from "astro:assets";
 import hero from "../assets/images/catering-hero.jpg"; // pon tu banner aquí
 import Sidebar from "../components/Sidebar.astro";
 import ContactStrip from "../components/ContactStrip.astro";
+import ContactResult from "../components/ContactResult.astro";
 ---
 
 <BaseLayout title="Catering | Kazu's Kitchen – Chef Kazu Kumoto">
@@ -50,13 +51,21 @@ import ContactStrip from "../components/ContactStrip.astro";
         <div class="hidden h-px w-40 bg-zinc-200 md:block"></div>
       </div>
 
+      <ContactResult
+        name="success-msg"
+        id="success-msg"
+        variant="success"
+        class="hidden"
+      />
+      <ContactResult
+        name="error-msg"
+        id="error-msg"
+        variant="error"
+        class="hidden"
+      />
+
       <!-- Form -->
-      <form
-        class="mx-auto mt-12"
-        name="catering"
-        method="POST"
-        action="/api/contact"
-      >
+      <form class="mx-auto mt-12" name="catering">
         <!-- Honeypot -->
         <p class="hidden">
           <label>
@@ -116,3 +125,50 @@ import ContactStrip from "../components/ContactStrip.astro";
   </section>
   <ContactStrip />
 </BaseLayout>
+
+<script>
+  import { set } from "astro:schema";
+
+  const form = document.querySelector('form[name="catering"]');
+
+  form!!.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+
+    const body = new URLSearchParams();
+    for (const [key, value] of formData.entries()) {
+      body.append(key, value);
+    }
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body,
+      });
+
+      const data = await res.json();
+
+      if (data.ok) {
+        document.getElementById("success-msg")?.classList.remove("hidden");
+        setTimeout(() => {
+          document.getElementById("success-msg")?.classList.add("hidden");
+        }, 5000);
+        form.reset();
+      } else {
+        document.getElementById("error-msg")?.classList.remove("hidden");
+        setTimeout(() => {
+          document.getElementById("error-msg")?.classList.add("hidden");
+        }, 5000);
+      }
+    } catch (err) {
+      document.getElementById("error-msg")?.classList.remove("hidden");
+      setTimeout(() => {
+        document.getElementById("error-msg")?.classList.add("hidden");
+      }, 5000);
+    }
+  });
+</script>
