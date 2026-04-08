@@ -7,9 +7,9 @@ import ContactStrip from "../components/ContactStrip.astro";
 ---
 
 <BaseLayout title="Catering | Kazu's Kitchen – Chef Kazu Kumoto">
-    <Fragment slot="sidebar">
-        <Sidebar />
-    </Fragment>
+  <Fragment slot="sidebar">
+    <Sidebar />
+  </Fragment>
   <!-- Hero -->
   <section class="relative h-[220px] w-full md:h-[280px]">
     <Image
@@ -25,15 +25,21 @@ import ContactStrip from "../components/ContactStrip.astro";
   <section class="bg-white text-zinc-800">
     <div class="mx-auto max-w-5xl px-6 py-14 md:px-10 md:py-16">
       <!-- Title -->
-      <h1 class="text-center font-serif  tracking-[0.18em] lg:text-7xl md:text-6xl sm:text-lg">
+      <h1
+        class="text-center font-serif tracking-[0.18em] lg:text-7xl md:text-6xl sm:text-lg"
+      >
         CATERING
       </h1>
 
-      <p class="mt-6 text-center font-serif text-base tracking-[0.08em] text-zinc-700">
+      <p
+        class="mt-6 text-center font-serif text-base tracking-[0.08em] text-zinc-700"
+      >
         ¡TAMBIÉN LLEVAMOS LA COCINA DE KAZU A TUS EVENTOS!
       </p>
 
-      <p class="mt-4 text-center font-serif text-lg tracking-[0.12em] text-zinc-700">
+      <p
+        class="mt-4 text-center font-serif text-lg tracking-[0.12em] text-zinc-700"
+      >
         SOLICITA TU COTIZACIÓN
       </p>
 
@@ -48,13 +54,9 @@ import ContactStrip from "../components/ContactStrip.astro";
       <form
         class="mx-auto mt-12"
         name="catering"
-        data-netlify="true"
-        netlify-honeypot="bot-field"
-        netlify
+        method="POST"
+        action="/api/contact"
       >
-        <!-- Netlify requiere esto -->
-        <input type="hidden" name="form-name" value="catering" />
-
         <!-- Honeypot -->
         <p class="hidden">
           <label>
@@ -62,11 +64,13 @@ import ContactStrip from "../components/ContactStrip.astro";
           </label>
         </p>
 
+        <input type="hidden" name="formType" value="catering" />
+
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
           <input
             class="h-12 w-full border border-zinc-200 px-4 text-sm outline-none placeholder:text-zinc-400 focus:border-zinc-400"
             type="text"
-            name="name"
+            name="nombre"
             placeholder="Nombre"
             required
           />
@@ -82,14 +86,14 @@ import ContactStrip from "../components/ContactStrip.astro";
           <input
             class="h-12 w-full border border-zinc-200 px-4 text-sm outline-none placeholder:text-zinc-400 focus:border-zinc-400"
             type="tel"
-            name="phone"
+            name="telefono"
             placeholder="Teléfono"
           />
 
           <input
             class="h-12 w-full border border-zinc-200 px-4 text-sm outline-none placeholder:text-zinc-400 focus:border-zinc-400"
             type="text"
-            name="subject"
+            name="asunto"
             placeholder="Asunto"
             required
           />
@@ -97,16 +101,15 @@ import ContactStrip from "../components/ContactStrip.astro";
 
         <textarea
           class="mt-6 min-h-[180px] w-full resize-y border border-zinc-200 px-4 py-3 text-sm outline-none placeholder:text-zinc-400 focus:border-zinc-400"
-          name="message"
+          name="mensaje"
           placeholder="Mensaje"
-          required
-        ></textarea>
+          required></textarea>
 
         <button
           type="submit"
           class="mt-10 w-full bg-black py-4 text-center text-xs font-semibold tracking-[0.3em] text-white hover:bg-zinc-900"
         >
-            ENVIAR
+          ENVIAR
         </button>
       </form>
     </div>
